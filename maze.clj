@@ -51,3 +51,14 @@
     (set (for [v vertices d deltas f [+ -]
                :let [w (vertices (map f v d))]
                :when w] #{v w}))))
+
+(defn- hex-outer-walls
+  [w h]
+  (let [vertices (set (for [y (range h) x (range (if (odd? y) 1 0) (* 2 w) 2)]
+                        [x y]))
+        deltas [[2 0] [1 1] [-1 1]]]
+    (set (for [v vertices d deltas f [+ -]
+               :let [w (map f v d)]
+               :when (not (vertices w))] #{v (vec w)}))))
+
+
