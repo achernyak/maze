@@ -42,4 +42,12 @@
                            (* 10 (inc w)) (* 10 (inc h))))))
     .pack
     (.setVisible true)))
-(draw 40 40 (maze (grid 40 40)))
+
+(defn hex-grid
+  [w h]
+  (let [vertices (set (for [y (range h) x (range (if (odd? y) 1 0) (* 2 w) 2)]
+                        [x y]))
+        deltas [[2 0] [1 1] [-1 1]]]
+    (set (for [v vertices d deltas f [+ -]
+               :let [w (vertices (map f v d))]
+               :when w] #{v w}))))
